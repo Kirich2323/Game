@@ -45,9 +45,7 @@ void Knight::Collide(Monster * target)
 {
 	target->TakeDamage(Damage());
 	if (target->HitPoint() <= 0)
-	{
 		pos = target->position();
-	}
 }
 
 std::pair<int, int> Princess::Move(Map &map)

@@ -13,12 +13,12 @@ private:
 	Map map;
 	bool gameover;
 	std::list<Actor*> characters;
+	std::vector<std::vector<Actor*>> actors;
 	Actor* player;
 	Actor* princess;
-
 	void AddPlayer(Actor* c);
 	void AddPrincess(Actor* c);
-	void AddCharacter(Actor* c) { characters.push_back(c); }
+	void AddCharacter(Actor* c);
 	void Win();
 	void Lose();
 	auto Find(std::pair<int, int> pos);

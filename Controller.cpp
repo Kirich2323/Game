@@ -4,8 +4,10 @@
 Controller::Controller(Map map_){
 	map = map_;
 	gameover = false;
+	actors.resize(map_.GetMap().size());
 	for (int i = 0; i < map.GetMap().size(); i++)
 	{
+		actors[i].resize(map.GetMap()[i].size(), nullptr);
 		for (int j = 0; j < map.GetMap()[i].size(); j++)
 		{
 			switch (map.GetMap()[i][j]) {
@@ -59,12 +61,20 @@ void Controller::AddPlayer(Actor * c)
 {
 	characters.push_front(c);
 	player = c;
+	actors[c->position().second][c->position().first] = c;
 }
 
 void Controller::AddPrincess(Actor * c)
 {
-	characters.push_back(c);
+	//characters.push_back(c);
 	princess = c;
+	actors[c->position().second][c->position().first] = c;
+}
+
+void Controller::AddCharacter(Actor * c)
+{
+	characters.push_back(c);
+	actors[c->position().second][c->position().first] = c;
 }
 
 void Controller::Win(void)
@@ -93,27 +103,41 @@ void Controller::NextMove()
 {
 	for (auto i = characters.begin(); i != characters.end(); i++)
 	{
+		if (((Character*)(*i))->HitPoint() <= 0)
+		{
+			if (i != characters.begin())
+			{
+				delete(*i);
+				characters.erase(i--);
+			}
+			continue;
+		}
+
 		std::pair<int, int> pos = (*i)->Move(map);
-		if (pos == std::pair<int, int>(-1, -1))
+		std::pair<int, int> started_pos = (*i)->position();
+
+		if (pos == std::pair<int, int>(-1, -1) || pos == started_pos)
 			continue;
 
-		auto target = Find(pos);
-		if (target == i)
-			continue;
+		Actor* target = actors[pos.second][pos.first];
 
-		if (target == characters.end())
+		if (target == nullptr)
 		{
 			(*i)->replace(pos, map);
+			actors[pos.second][pos.first] = (*i);
+			actors[started_pos.second][started_pos.first] = nullptr;
 		}
 		else
 		{
-			map.SetChar((*i)->position(), '.');
-			(*target)->Collide(*i);
-			if (((Character*)(*target))->HitPoint() <= 0)
+			target->Collide(*i);
+			std::pair<int, int> new_pos = (*i)->position();
+			if (started_pos != new_pos)
 			{
-				characters.erase(target);
+				actors[new_pos.second][new_pos.first] = (*i);
+				map.SetChar(new_pos, (*i)->Symbol());
+				actors[started_pos.second][started_pos.first] = nullptr;
+				map.SetChar(started_pos, '.');
 			}
-			map.SetChar((*i)->position(), (*i)->Symbol());
 		}
 	}
 }
