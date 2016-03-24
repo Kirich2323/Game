@@ -5,6 +5,11 @@
 #include<list>
 #include<set>
 
+#define KNIGHT_SYMBOL 'K'
+#define PRINCESS_SYMBOL 'P'
+#define ZOMBIE_SYMBOL 'Z'
+#define DRAGON_SYMBOL 'D'
+
 static std::vector<std::pair<int, int>> ways = {
 	std::pair<int, int>(1, 0),
 	std::pair<int, int>(-1, 0),
@@ -19,7 +24,7 @@ static std::map<char, std::pair<int, int>> directions = {
 	{ 'd', std::pair<int, int>(1,  0) } };
 
 
-static std::set<char> monsters = {'Z', 'D'};
+static std::set<char> monsters = {ZOMBIE_SYMBOL, DRAGON_SYMBOL};
 
 inline std::pair<int, int> operator+(const std::pair<int, int> &left, const std::pair<int, int> &right)
 {
@@ -46,7 +51,7 @@ protected:
 class Knight : public Character {
 public:
 	Knight(int h, int x, int y): Character(h, x, y) {}
-	char Symbol();
+	char Symbol() { return KNIGHT_SYMBOL; }
 	std::pair<int, int> Move(Map &map);
 	int HitPoint();
 	int Damage();
@@ -55,7 +60,7 @@ public:
 class Princess : public Character {
 public:
 	Princess(int h, int x, int y) : Character(h, x, y) {}
-	char Symbol();
+	char Symbol() { return PRINCESS_SYMBOL; }
 	std::pair<int, int> Move(Map &map);
 	int HitPoint();
 	int Damage();
@@ -77,7 +82,7 @@ private:
 class Zombie : public Monster {
 public:
 	Zombie(int h, int x, int y): Monster(h, x, y) {}
-	char Symbol();
+	char Symbol() { return ZOMBIE_SYMBOL; }
 	int HitPoint();
 	int Damage();
 };
@@ -85,7 +90,7 @@ public:
 class Dragon : public Monster {
 public:
 	Dragon(int h, int x, int y): Monster(h, x, y){}
-	char Symbol();
+	char Symbol() { return DRAGON_SYMBOL; }
 	int HitPoint();
 	int Damage();
 };

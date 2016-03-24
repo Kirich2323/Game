@@ -26,11 +26,6 @@ bool Character::PathExist(Map &map, std::pair<int, int> target)
 			map.GetMap()[target.second][target.first] != '#');
 }
 
-char Knight::Symbol()
-{
-	return 'K';
-}
-
 std::pair<int, int> Knight::Move(Map &map)
 {
 	char direction;
@@ -56,11 +51,6 @@ int Knight::HitPoint()
 int Knight::Damage()
 {
 	return 10;
-}
-
-char Princess::Symbol()
-{
-	return 'P';
 }
 
 std::pair<int, int> Princess::Move(Map &map)
@@ -158,7 +148,7 @@ std::pair<int, int> Monster::SearchForKnight(Map & map)
 {
 	for (int i = 0; i < map.GetMap().size(); i++)
 		for (int j = 0; j < map.GetMap()[i].size(); j++)
-			if (map.GetMap()[i][j] == 'K')
+			if (map.GetMap()[i][j] == KNIGHT_SYMBOL)
 				return std::pair<int, int>(j, i);
 
 	return std::pair<int, int>(-1, -1);
@@ -173,11 +163,6 @@ bool Monster::PathExist(Map &map, std::pair<int, int> target)
 	return false;
 }
 
-char Zombie::Symbol()
-{
-	return 'Z';
-}
-
 int Zombie::HitPoint()
 {
 	return hitpoints;
@@ -186,11 +171,6 @@ int Zombie::HitPoint()
 int Zombie::Damage()
 {
 	return 5;
-}
-
-char Dragon::Symbol()
-{
-	return 'D';
 }
 
 int Dragon::HitPoint()
