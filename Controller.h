@@ -24,6 +24,4 @@ private:
 	auto Find(std::pair<int, int> pos);
 	void NextMove();
 	void ShowMap();
-	void PlayerAction();
-	void MonsterAction(std::list<Actor*>::iterator initiator);
 };
