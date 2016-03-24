@@ -91,7 +91,6 @@ auto Controller::Find(std::pair<int, int> pos)
 
 void Controller::NextMove()
 {
-	//PlayerAction();
 	for (auto i = characters.begin(); i != characters.end(); i++)
 	{
 		std::pair<int, int> pos = (*i)->Move(map);
@@ -116,7 +115,6 @@ void Controller::NextMove()
 			}
 			map.SetChar((*i)->position(), (*i)->Symbol());
 		}
-		//MonsterAction(i);
 	}
 }
 
