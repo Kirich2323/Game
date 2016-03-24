@@ -34,9 +34,14 @@ inline std::pair<int, int> operator+(const std::pair<int, int> &left, const std:
 
 class Character : public Actor {
 public:
-	Character(int& h, int& x_, int& y_) : Actor(h, x_, y_) {}
+	Character(int& h, int& x_, int& y_) : hitpoints(h), Actor(x_, y_) {}
+	void TakeDamage(const int& amount) { hitpoints -= amount; }
+	virtual int Damage() = 0;
+	virtual int HitPoint() = 0;
+	virtual std::pair<int, int> Move(Map& map) = 0;
 	virtual ~Character() {};
 protected:
+	int hitpoints;
 	virtual bool PathExist(Map &map, std::pair<int, int> target);
 };
 
