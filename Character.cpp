@@ -1,22 +1,5 @@
 #include"Character.h"
 
-void Character::TakeDamage(int amount)
-{
-	hitpoints -= amount;
-}
-
-std::pair<int, int> Character::position()
-{
-	return pos;
-}
-
-void Character::replace(std::pair<int, int> new_pos, Map &map)
-{
-	map.SetChar(pos, '.');
-	pos = new_pos;
-	map.SetChar(pos, Symbol());
-}
-
 bool Character::PathExist(Map &map, std::pair<int, int> target)
 {
 	return (target.second >= 0 &&

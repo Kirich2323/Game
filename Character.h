@@ -4,6 +4,7 @@
 #include<map>
 #include<list>
 #include<set>
+#include"Actor.h"
 
 #define KNIGHT_SYMBOL 'K'
 #define PRINCESS_SYMBOL 'P'
@@ -31,21 +32,12 @@ inline std::pair<int, int> operator+(const std::pair<int, int> &left, const std:
 	return std::pair<int, int>(left.first + right.first, left.second + right.second);
 }
 
-class Character {
+class Character : public Actor {
 public:
-	Character(int h, int x_, int y_) : hitpoints(h), pos(std::pair<int, int>(x_, y_)) {}
-	void TakeDamage(int amount);
-	virtual char Symbol() = 0;
-	virtual std::pair<int, int> Move(Map &map) = 0;
-	virtual int HitPoint() = 0;
-	virtual int Damage() = 0;
-	std::pair<int, int> position();
-	void replace(std::pair<int, int> new_pos, Map &map);
+	Character(int& h, int& x_, int& y_) : Actor(h, x_, y_) {}
 	virtual ~Character() {};
 protected:
 	virtual bool PathExist(Map &map, std::pair<int, int> target);
-	int hitpoints;
-	std::pair<int, int> pos;
 };
 
 class Knight : public Character {
