@@ -36,6 +36,20 @@ int Knight::Damage()
 	return 10;
 }
 
+void Knight::Collide(Princess * target)
+{
+	pos = target->position();
+}
+
+void Knight::Collide(Monster * target)
+{
+	target->TakeDamage(Damage());
+	if (target->HitPoint() <= 0)
+	{
+		pos = target->position();
+	}
+}
+
 std::pair<int, int> Princess::Move(Map &map)
 {
 	return pos;
@@ -72,10 +86,19 @@ std::pair<int, int> Monster::Move(Map &map)
 	return pos;
 }
 
+void Monster::Collide(Knight * target)
+{
+	target->TakeDamage(Damage());
+}
+
 std::pair<int, int>& Monster::SearchForPath(Map &map)
 {
 	std::pair<int, int> next_point = std::pair<int, int>(-1, -1);
 	std::pair<int, int> target = SearchForKnight(map);
+
+	if (target == std::pair<int, int>(-1, -1))
+		return target;
+
 	std::pair<int, int> new_pos;
 	std::pair<int, int> current_loc;
 

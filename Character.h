@@ -38,8 +38,12 @@ public:
 	void TakeDamage(const int& amount) { hitpoints -= amount; }
 	virtual int Damage() = 0;
 	virtual int HitPoint() = 0;
-	virtual std::pair<int, int> Move(Map& map) = 0;
 	virtual ~Character() {};
+	virtual void Collide(Actor* target) = 0;
+	virtual void Collide(Character* target) = 0;
+	virtual void Collide(Knight* target) = 0;
+	virtual void Collide(Princess* target) = 0;
+	virtual void Collide(Monster* target) = 0;
 protected:
 	int hitpoints;
 	virtual bool PathExist(Map &map, std::pair<int, int> target);
@@ -52,6 +56,11 @@ public:
 	std::pair<int, int> Move(Map &map);
 	int HitPoint();
 	int Damage();
+	virtual void Collide(Actor* target) { target->Collide(this); }
+	virtual void Collide(Character* target) {};
+	virtual void Collide(Knight* target) {}
+	virtual void Collide(Princess* target);
+	virtual void Collide(Monster* target);
 };
 
 class Princess : public Character {
@@ -61,6 +70,11 @@ public:
 	std::pair<int, int> Move(Map &map);
 	int HitPoint();
 	int Damage();
+	virtual void Collide(Actor* target) { target->Collide(this); }
+	virtual void Collide(Character* target) {}
+	virtual void Collide(Knight* target) { /*pos = target->position(); */}
+	virtual void Collide(Princess* target) {}
+	virtual void Collide(Monster* target) {}
 };
 
 class Monster : public Character {
@@ -70,6 +84,11 @@ public:
 	std::pair<int, int> Move(Map &map);
 	int HitPoint() = 0;
 	virtual int Damage() = 0;
+	virtual void Collide(Actor* target) { target->Collide(this); }
+	virtual void Collide(Character* target) {}
+	virtual void Collide(Knight* target);
+	virtual void Collide(Princess* target) {}
+	virtual void Collide(Monster* target) { pos = target->position(); }
 private:
 	std::pair<int, int>& SearchForPath(Map &map);
 	std::pair<int, int> SearchForKnight(Map &map);

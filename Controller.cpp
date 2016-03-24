@@ -21,12 +21,12 @@ Controller::Controller(Map map_){
 				if (princess == NULL)
 					AddPrincess(new Princess(100, j, i));
 				else
-					throw(std::runtime_error("Too many princess"));
+					throw(std::runtime_error("Too many princesses"));
 				break;
 			}
-			case 'Z': AddMonster(new Zombie(10, j, i));
+			case 'Z': AddCharacter(new Zombie(10, j, i));
 				break;
-			case 'D': AddMonster(new Dragon(50, j, i));
+			case 'D': AddCharacter(new Dragon(50, j, i));
 			}
 		}
 	}
@@ -50,9 +50,21 @@ void Controller::Start() {
 
 		if (player->position() == princess->position())
 			Win();
-		else if (player->HitPoint() <= 0)
+		else if (((Character*)player)->HitPoint() <= 0)
 			Lose();
 	}
+}
+
+void Controller::AddPlayer(Actor * c)
+{
+	characters.push_front(c);
+	player = c;
+}
+
+void Controller::AddPrincess(Actor * c)
+{
+	characters.push_back(c);
+	princess = c;
 }
 
 void Controller::Win(void)
@@ -79,10 +91,32 @@ auto Controller::Find(std::pair<int, int> pos)
 
 void Controller::NextMove()
 {
-	PlayerAction();
+	//PlayerAction();
 	for (auto i = characters.begin(); i != characters.end(); i++)
 	{
-		MonsterAction(i);
+		std::pair<int, int> pos = (*i)->Move(map);
+		if (pos == std::pair<int, int>(-1, -1))
+			continue;
+
+		auto target = Find(pos);
+		if (target == i)
+			continue;
+
+		if (target == characters.end())
+		{
+			(*i)->replace(pos, map);
+		}
+		else
+		{
+			map.SetChar((*i)->position(), '.');
+			(*target)->Collide(*i);
+			if (((Character*)(*target))->HitPoint() <= 0)
+			{
+				characters.erase(target);
+			}
+			map.SetChar((*i)->position(), (*i)->Symbol());
+		}
+		//MonsterAction(i);
 	}
 }
 
@@ -96,7 +130,7 @@ void Controller::ShowMap()
 	map.SetChar(player->position(), player->Symbol());     //  показать игрока
 
 	system("CLS");
-	printf("%d HP\n", player->HitPoint());  // показать HP
+	printf("%d HP\n", ((Character*)player)->HitPoint());  // показать HP
 	map.Display();
 }
 
@@ -106,7 +140,7 @@ void Controller::PlayerAction()
 
 	if (player->position() == pos)
 		return;
-	
+
 	if (monsters.find(map.GetMap()[pos.second][pos.first]) == monsters.end())
 	{
 		player->replace(pos, map);
@@ -114,23 +148,24 @@ void Controller::PlayerAction()
 	}
 
 	auto target = Find(pos);
-	(*target)->TakeDamage(player->Damage());
+	(*target)->Collide(player);
+	//(*target)->TakeDamage(player->Damage());
 
-	if ((*target)->HitPoint() <= 0)
+	/*if ((*target)->HitPoint() <= 0)
 	{
 		characters.erase(target);
 		player->replace(pos, map);
-	}
+	}*/
 }
 
-void Controller::MonsterAction(std::list<Character*>::iterator initiator)
+void Controller::MonsterAction(std::list<Actor*>::iterator initiator)
 {
 	std::pair<int, int> pos = (*initiator)->Move(map);
 	if (monsters.find(map.GetMap()[pos.second][pos.first]) == monsters.end())
 	{
 		if (pos == player->position())
 		{
-			player->TakeDamage((*initiator)->Damage());
+			//player->TakeDamage((*initiator)->Damage());
 			return;
 		}
 		else

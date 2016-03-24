@@ -2,6 +2,7 @@
 #include<vector>
 #include<list>
 #include"Map.h"
+#include"Actor.h"
 #include"Character.h"
 
 class Controller {
@@ -11,18 +12,18 @@ public:
 private:
 	Map map;
 	bool gameover;
-	std::list<Character*> characters;
-	Character* player;
-	Character* princess;
+	std::list<Actor*> characters;
+	Actor* player;
+	Actor* princess;
 
-	void AddPlayer(Character* c) { player = c; }
-	void AddPrincess(Character* c) { princess = c; }
-	void AddMonster(Character* c) { characters.push_back(c); }
+	void AddPlayer(Actor* c);
+	void AddPrincess(Actor* c);
+	void AddCharacter(Actor* c) { characters.push_back(c); }
 	void Win();
 	void Lose();
 	auto Find(std::pair<int, int> pos);
 	void NextMove();
 	void ShowMap();
 	void PlayerAction();
-	void MonsterAction(std::list<Character*>::iterator initiator);
+	void MonsterAction(std::list<Actor*>::iterator initiator);
 };
