@@ -11,14 +11,14 @@ Controller::Controller(Map map_){
 		for (int j = 0; j < map.GetMap()[i].size(); j++)
 		{
 			switch (map.GetMap()[i][j]) {
-			case 'K': {
+			case KNIGHT_SYMBOL: {
 				if (player == NULL)
 					AddPlayer(new Knight(100, j, i));
 				else
 					throw(std::runtime_error("Too many knights"));
 				break;
 			}
-			case 'P': 
+			case PRINCESS_SYMBOL: 
 			{
 				if (princess == NULL)
 					AddPrincess(new Princess(100, j, i));
@@ -26,9 +26,9 @@ Controller::Controller(Map map_){
 					throw(std::runtime_error("Too many princesses"));
 				break;
 			}
-			case 'Z': AddCharacter(new Zombie(10, j, i));
+			case ZOMBIE_SYMBOL: AddCharacter(new Zombie(10, j, i));
 				break;
-			case 'D': AddCharacter(new Dragon(50, j, i));
+			case DRAGON_SYMBOL: AddCharacter(new Dragon(50, j, i));
 			}
 		}
 	}
