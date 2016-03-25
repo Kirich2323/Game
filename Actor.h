@@ -6,6 +6,8 @@ class Character;
 class Knight;
 class Princess;
 class Monster;
+class Item;
+class Medkit;
 
 class Actor
 {
