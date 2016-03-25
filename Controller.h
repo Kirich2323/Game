@@ -4,6 +4,7 @@
 #include"Map.h"
 #include"Actor.h"
 #include"Character.h"
+#include"Item.h"
 
 class Controller {
 public:
@@ -19,6 +20,7 @@ private:
 	void AddPlayer(Actor* c);
 	void AddPrincess(Actor* c);
 	void AddCharacter(Actor* c);
+	void AddItem(Actor* c);
 	void Win();
 	void Lose();
 	auto Find(std::pair<int, int> pos);

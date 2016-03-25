@@ -29,6 +29,9 @@ Controller::Controller(Map map_){
 			case ZOMBIE_SYMBOL: AddCharacter(new Zombie(10, j, i));
 				break;
 			case DRAGON_SYMBOL: AddCharacter(new Dragon(50, j, i));
+				break;
+			case MEDKIT_SYMBOL: AddItem(new Medkit(j, i));
+				break;
 			}
 		}
 	}
@@ -77,6 +80,11 @@ void Controller::AddCharacter(Actor * c)
 	actors[c->position().second][c->position().first] = c;
 }
 
+void Controller::AddItem(Actor * c)
+{
+	actors[c->position().second][c->position().first] = c;
+}
+
 void Controller::Win(void)
 {
 	gameover = true;
@@ -113,7 +121,7 @@ void Controller::NextMove()
 			continue;
 		}
 
-		std::pair<int, int> pos = (*i)->Move(map);
+		std::pair<int, int> pos = ((Character*)(*i))->Move(map);
 		std::pair<int, int> started_pos = (*i)->position();
 
 		if (pos == std::pair<int, int>(-1, -1) || pos == started_pos)
@@ -133,6 +141,8 @@ void Controller::NextMove()
 			std::pair<int, int> new_pos = (*i)->position();
 			if (started_pos != new_pos)
 			{
+				//if (actors[started_pos.second][started_pos.first] != nullptr)
+					//delete(actors[started_pos.second][started_pos.first]);
 				actors[new_pos.second][new_pos.first] = (*i);
 				map.SetChar(new_pos, (*i)->Symbol());
 				actors[started_pos.second][started_pos.first] = nullptr;

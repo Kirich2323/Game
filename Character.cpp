@@ -48,6 +48,18 @@ void Knight::Collide(Monster * target)
 		pos = target->position();
 }
 
+void Knight::Collide(Item * target)
+{
+	std::cout << "Collision";
+}
+
+void Knight::Collide(Medkit* target)
+{
+	hitpoints += target->HealPower();
+	hitpoints = hitpoints > max_hp ? max_hp : hitpoints;
+	pos = target->position();
+}
+
 std::pair<int, int> Princess::Move(Map &map)
 {
 	return pos;
