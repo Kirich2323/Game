@@ -17,8 +17,11 @@ protected:
 	int cooldown;
 };
 
+class Cemetery : public Spawner
 {
 public:
+	Cemetery(int x_, int y_, int cd) : Spawner(x_, y_, cd) {}
+	~Cemetery() {}
 	char Symbol() { return CEMETRY_SYMBOL; }
 protected:
 	void Spawn(Map& map);

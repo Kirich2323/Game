@@ -28,12 +28,13 @@ bool Spawner::PathExist(Map & map, std::pair<int, int> pos)
 }
 
 
+void Cemetery::Spawn(Map & map)
 {
 	int offset = rand() % ways.size();
 	for (int i = 0; i < ways.size(); i++)
 	{
 		std::pair<int, int> new_pos = pos + ways[(i + offset) % 4];
-		if (PathExist(map, new_pos))
+		if (PathExist(map, new_pos) && map.GetMap()[new_pos.second][new_pos.first] != map.GetPlayer())
 		{
 			map.SetActed(pos);
 			delete map.GetMap()[new_pos.second][new_pos.first];
@@ -50,7 +51,7 @@ void DragonNest::Spawn(Map & map)
 	for (int i = 0; i < ways.size(); i++)
 	{
 		std::pair<int, int> new_pos = pos + ways[(i + offset) % 4];
-		if (PathExist(map, new_pos))
+		if (PathExist(map, new_pos) && map.GetMap()[new_pos.second][new_pos.first] != map.GetPlayer())
 		{
 			map.SetActed(pos);
 			delete map.GetMap()[new_pos.second][new_pos.first];

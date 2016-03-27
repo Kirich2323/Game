@@ -13,18 +13,14 @@ void Character::Heal(int amount)
 
 void Character::Collide(Map & map, Fireball * target)
 {
-	map.GetMap()[target->position().second][target->position().first] = new Emptiness(target->position().first, target->position().second);
+	map.Insert(new Emptiness(target->position().first, target->position().second), target->position());
 	hitpoints -= target->GetDamage();
 	delete target;
 }
 
 bool Character::PathExist(Map & map, std::pair<int, int>& target)
 {
-	return (target.second >= 0 &&
-			target.first >= 0 &&
-			target.second < map.GetMap().size() &&
-			target.first < map.GetMap()[target.second].size() &&
-			map.GetMap()[target.second][target.first]->Symbol() != WALL_SYMBOL);
+	return (map.PathExist(target) && map.GetMap()[target.second][target.first]->Symbol() != WALL_SYMBOL);
 }
 
 void Knight::Move(Map& map)
@@ -94,11 +90,11 @@ void Monster::Collide(Map& map, Knight * target)
 
 void Monster::Collide(Map & map, Princess * target)
 {
-	map.GetMap()[pos.second][pos.first] = new Emptiness(pos.first, pos.second);
+	map.Insert(new Emptiness(pos.first, pos.second), pos);
 	map.SetActed(pos);
 	pos = target->position();
 	map.SetActed(pos);
-	map.GetMap()[pos.second][pos.first] = this;
+	map.Insert(this, pos);
 }
 
 std::pair<int, int>& Monster::SearchForPath(Map &map)
@@ -187,7 +183,7 @@ void Wizard::LaunchFireball(Map & map)
 		std::pair<int, int> dir = ways[(i + offset) % 4];
 		std::pair<int, int> new_pos = dir + pos;
 		
-		if (PathExist(map, new_pos))
+		if (PathExist(map, new_pos) && map.GetMap()[new_pos.second][new_pos.first] != map.GetPlayer())
 		{
 			map.SetActed(new_pos);
 			delete map.GetMap()[new_pos.second][new_pos.first];

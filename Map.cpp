@@ -4,6 +4,7 @@
 #include"Item.h"
 #include"Object.h"
 #include"Spawner.h"
+#include<queue>
 
 Map::Map()
 {
@@ -47,6 +48,7 @@ Map::Map(std::vector<std::vector<char>>& map_)
 				break;
 			case WIZARD_SYMBOL: AddActor(new Wizard(WIZARD_HP, j, i));
 				break;
+			case CEMETRY_SYMBOL: AddActor(new Cemetery(j, i, CEMETERY_COOLDOWN));
 				break;
 			case DRAGONNEST_SYMBOL: AddActor(new DragonNest(j, i, DRAGONNEST_COOLDOWN));
 				break;
@@ -63,11 +65,13 @@ Map::Map(std::vector<std::vector<char>>& map_)
 	visited.resize(map_.size());
 	paths.resize(map_.size());
 	acted.resize(map_.size());
+	distances.resize(map_.size());
 	for (int i = 0; i < map_.size(); i++)
 	{
 		visited[i].resize(map_[i].size());
 		paths[i].resize(map_[i].size());
 		acted[i].resize(map_[i].size());
+		distances[i].resize((map_[i].size()));
 	}
 }
 
@@ -146,6 +150,34 @@ void Map::ClearActed()
 	}
 }
 
+void Map::UpdateDistances()
+{
+	ClearVisited();
+
+	std::queue< std::pair< std::pair< int, int>, int> > queue;
+	queue.push(make_pair(player->position(), 0));
+
+	visited[player->position().second][player->position().first] = true;
+
+	while (!queue.empty())
+	{
+		std::pair<int, int> pos_ = queue.front().first;
+		int dist = queue.front().second;
+		distances[pos_.second][pos_.first] = dist;
+		queue.pop();
+
+		for (int i = 0; i < ways.size(); i++)
+		{
+			std::pair<int, int> new_pos = pos_ + ways[i];
+			if (PathExist(new_pos) && visited[new_pos.second][new_pos.first] == false)
+			{
+				queue.push(make_pair(new_pos, dist + 1));
+				visited[new_pos.second][new_pos.first] = true;
+			}
+		}
+	}
+}
+
 std::vector<std::vector<bool>>& Map::GetActed()
 {
 	return acted;
@@ -156,4 +188,19 @@ void Map::ClearVisited()
 	for (int i = 0; i < visited.size(); i++)
 		for (int j = 0; j < visited[i].size(); j++)
 			visited[i][j] = false;
+}
+
+bool Map::PathExist(std::pair<int, int> pos)
+{
+	return pos.second >= 0 && pos.first >= 0 && pos.second < actors.size() && pos.first < actors[pos.second].size();
+}
+
+void Map::Erase(std::pair<int, int> pos)
+{
+	delete actors[pos.second][pos.first];
+}
+
+void Map::Insert(Actor* actor, std::pair<int, int> pos)
+{
+	actors[pos.second][pos.first] = actor;
 }

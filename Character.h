@@ -9,7 +9,7 @@
 
 class Character : public Actor {
 public:
-	Character(int& h, int& x_, int& y_) : hitpoints(h), max_hp(h), Actor(x_, y_) {}
+	Character(int h, int x_, int y_) : hitpoints(h), max_hp(h), Actor(x_, y_) {}
 	void TakeDamage(const int& amount) { hitpoints -= amount; }
 	virtual int Damage() = 0;
 	virtual int HitPoint() { return hitpoints; }
