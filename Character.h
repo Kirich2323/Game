@@ -20,6 +20,7 @@ public:
 	virtual void Collide(Map& map, Knight* target) {};
 	virtual void Collide(Map& map, Princess* target) {};
 	virtual void Collide(Map& map, Monster* target) {};
+	virtual void Collide(Map& map, Fireball* target);
 	virtual void Act(Map& map) { Move(map); }
 protected:
 	int hitpoints;
@@ -91,5 +92,7 @@ public:
 	char Symbol() { return WIZARD_SYMBOL; }
 	int Damage() { return 2; }
 private:
+	int fireball_damage = 10;
+	void LaunchFireball(Map& map);
 	void Move(Map& map);
 };

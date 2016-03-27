@@ -2,12 +2,20 @@
 #include"Object.h"
 #include<conio.h>
 #include<queue>
+#include"Fireball.h"
 
 void Character::Heal(int amount)
 {
 	hitpoints += amount;
 	if (hitpoints > max_hp)
 		hitpoints = max_hp;
+}
+
+void Character::Collide(Map & map, Fireball * target)
+{
+	map.GetMap()[target->position().second][target->position().first] = new Emptiness(target->position().first, target->position().second);
+	hitpoints -= target->GetDamage();
+	delete target;
 }
 
 bool Character::PathExist(Map &map, std::pair<int, int> target)
@@ -149,14 +157,40 @@ bool Monster::PathExist(Map &map, std::pair<int, int> target)
 void Wizard::Act(Map& map)
 {
 	if (rand() % 6 == 0)
-	{
-
-	}
+		LaunchFireball(map);
 	else
-	{
 		Monster::Act(map);
-	}
-
 }
 
+void Wizard::LaunchFireball(Map & map)
 {
+	map.SetActed(pos);
+	int offset = rand();
+	for (int i = 0; i < ways.size(); i++)
+	{
+		std::pair<int, int> dir = ways[(i + offset) % 4];
+		std::pair<int, int> new_pos = dir + pos;
+		
+		if (PathExist(map, new_pos))
+		{
+			map.SetActed(new_pos);
+			delete map.GetMap()[new_pos.second][new_pos.first];
+			map.GetMap()[new_pos.second][new_pos.first] = new Fireball(fireball_damage, dir, new_pos.first, new_pos.second);
+			return;
+		}
+	}
+}
+
+void Wizard::Move(Map & map)
+{
+	int offset = rand() % ways.size();
+	for (int i = 0; i < ways.size(); i++)
+	{
+		std::pair<int, int> new_pos = pos + ways[(i + offset) % ways.size()];
+		if (PathExist(map, new_pos))
+		{
+			Collide(map, map.GetMap()[new_pos.second][new_pos.first]);
+			break;
+		}
+	}
+}

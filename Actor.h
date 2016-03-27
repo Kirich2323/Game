@@ -16,6 +16,7 @@ class Object;
 class Wall;
 class Emptiness;
 
+class Fireball;
 
 class Actor
 {

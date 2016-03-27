@@ -13,9 +13,9 @@
 
 static std::map<std::pair<int, int>, char> fb_dir = {
 	{std::pair<int, int>( 0,-1), '^' },
-	{std::pair<int, int>( 0, 1), '>' },
+	{std::pair<int, int>( 0, 1), 'v' },
 	{std::pair<int, int>(-1, 0), '<'},
-	{std::pair<int, int>( 1, 0), 'v' }
+	{std::pair<int, int>( 1, 0), '>' }
 };
 static std::vector<std::pair<int, int>> ways = {
 	std::pair<int, int>(1, 0),
