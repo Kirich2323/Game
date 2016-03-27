@@ -3,6 +3,7 @@
 #include"Character.h"
 #include"Item.h"
 #include"Object.h"
+#include"Spawner.h"
 
 Map::Map()
 {
@@ -21,7 +22,7 @@ Map::Map(std::vector<std::vector<char>>& map_)
 			switch (map_[i][j]) {
 			case KNIGHT_SYMBOL: {
 				if (player == nullptr)
-					AddPlayer(new Knight(100, j, i));
+					AddPlayer(new Knight(KNIGHT_HP, j, i));
 				else
 					throw(std::runtime_error("Too many knights"));
 				break;
@@ -29,14 +30,14 @@ Map::Map(std::vector<std::vector<char>>& map_)
 			case PRINCESS_SYMBOL:
 			{
 				if (princess == nullptr)
-					AddPrincess(new Princess(100, j, i));
+					AddPrincess(new Princess(PRINCESS_HP, j, i));
 				else
 					throw(std::runtime_error("Too many princesses"));
 				break;
 			}
-			case ZOMBIE_SYMBOL: AddActor(new Zombie(10, j, i));
+			case ZOMBIE_SYMBOL: AddActor(new Zombie(ZOMBIE_HP, j, i));
 				break;
-			case DRAGON_SYMBOL: AddActor(new Dragon(50, j, i));
+			case DRAGON_SYMBOL: AddActor(new Dragon(DRAGON_HP, j, i));
 				break;
 			case MEDKIT_SYMBOL: AddActor(new Medkit(j, i));
 				break;
@@ -44,7 +45,11 @@ Map::Map(std::vector<std::vector<char>>& map_)
 				break;
 			case EMPTINESS_SYMBOL: AddActor(new Emptiness(j, i));
 				break;
-			case WIZARD_SYMBOL: AddActor(new Wizard(15, j, i));
+			case WIZARD_SYMBOL: AddActor(new Wizard(WIZARD_HP, j, i));
+				break;
+				break;
+			case DRAGONNEST_SYMBOL: AddActor(new DragonNest(j, i, DRAGONNEST_COOLDOWN));
+				break;
 			}
 		}
 	}

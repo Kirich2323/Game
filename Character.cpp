@@ -156,7 +156,7 @@ bool Monster::PathExist(Map &map, std::pair<int, int> target)
 
 void Wizard::Act(Map& map)
 {
-	if (rand() % 6 == 0)
+	if (rand() % 4 == 0)
 		LaunchFireball(map);
 	else
 		Monster::Act(map);

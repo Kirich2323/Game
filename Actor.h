@@ -18,6 +18,8 @@ class Emptiness;
 
 class Fireball;
 
+class Spawner;
+
 class Actor
 {
 public:
@@ -27,11 +29,12 @@ public:
 	virtual void replace(std::pair<int, int>& new_pos, Map& map);
 	virtual ~Actor() {}
 	virtual void Act(Map& map) = 0;
-	virtual void Collide(Map& map, Actor* target) = 0;
+	virtual void Collide(Map& map, Actor* target) {};
 	virtual void Collide(Map& map, Character* target) {}
 	virtual void Collide(Map& map, Item* target) {}
 	virtual void Collide(Map& map, Object* target) {}
 	virtual void Collide(Map& map, Fireball* target) {}
+	virtual void Collide(Map& map, Spawner* target) {}
 protected:
 	std::pair<int, int> pos;
 };

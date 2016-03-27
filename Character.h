@@ -92,7 +92,7 @@ public:
 	char Symbol() { return WIZARD_SYMBOL; }
 	int Damage() { return 2; }
 private:
-	int fireball_damage = 10;
+	int fireball_damage = FIREBALL_DMG;
 	void LaunchFireball(Map& map);
 	void Move(Map& map);
 };

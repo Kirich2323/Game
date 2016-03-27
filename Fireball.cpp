@@ -6,7 +6,7 @@ void Fireball::Collide(Map & map, Character* target)
 {
 	target->TakeDamage(damage);
 	map.GetMap()[pos.second][pos.first] = new Emptiness(pos.first, pos.second);
-	delete this; //???
+	delete this;
 }
 
 void Fireball::Act(Map & map)

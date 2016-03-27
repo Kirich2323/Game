@@ -10,6 +10,22 @@
 #define WALL_SYMBOL '#'
 #define EMPTINESS_SYMBOL '.'
 #define WIZARD_SYMBOL 'W'
+#define CEMETRY_SYMBOL '$'
+#define DRAGONNEST_SYMBOL '@'
+
+#define KNIGHT_HP 150
+#define ZOMBIE_HP 10
+#define DRAGON_HP 50
+#define PRINCESS_HP 25
+#define WIZARD_HP 15
+
+#define KNIGHT_DMG 10
+#define ZOMGIE_DMG 5
+#define DRAGON_DMG 7
+#define WIZARD_DMG 2
+#define FIREBALL_DMG 15
+
+#define DRAGONNEST_COOLDOWN 24
 
 static std::map<std::pair<int, int>, char> fb_dir = {
 	{std::pair<int, int>( 0,-1), '^' },
