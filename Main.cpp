@@ -2,6 +2,7 @@
 #include<vector>
 #include<string>
 #include"Controller.h"
+#include"vec2.h"
 
 using namespace std;
 
@@ -24,9 +25,7 @@ int main(void)
 	{
 		char_map[i].resize(map_[i].size());
 		for (int j = 0; j < map_[i].size(); j++)
-		{
 			char_map[i][j] = map_[i][j];
-		}
 	}
 
 	Map map(char_map);

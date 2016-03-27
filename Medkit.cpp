@@ -1,11 +1,8 @@
 #include"Item.h"
 #include"Character.h"
-void Medkit::Collide(Character * target)
-{
-	std::cout << "Collision";
-}
 
-void Medkit::Collide(Knight * target)
+void Medkit::Collide(Map& map, Character * target)
 {
-	target->TakeDamage(-5);
+	target->Heal(HealPower());
+	target->replace(pos, map);
 }

@@ -3,19 +3,32 @@
 #include<string>
 #include<iostream>
 
+class Actor;
+
 class Map {
 public:
 	Map();
-	Map(std::vector<std::vector<char>> map_);
+	Map(std::vector<std::vector<char>>& map_);
 	Map(const Map &map_);
 	void Display();
-	void SetChar(std::pair<int, int> pos, char c);
-	std::vector<std::vector<char>>& GetMap();
+	std::vector<std::vector<Actor*>>& GetMap();
+	std::vector<std::vector<Actor*>> GetBufMap();
 	std::vector<std::vector<std::pair<int, int>>>& GetPaths();
 	std::vector<std::vector<bool>>& GetVisited();
+	void SetActed(std::pair<int, int>& pos);
+	void ClearActed();
+	std::vector<std::vector<bool>>& GetActed();
+	Actor* GetPlayer() { return player; }
+	Actor* GetPrincess() { return princess; }
 	void ClearVisited();
 private:
-	std::vector<std::vector<char>> map;
+	Actor* player;
+	Actor* princess;
+	std::vector<std::vector<Actor*>> actors;
+	void AddPlayer(Actor* c);
+	void AddPrincess(Actor* c);
+	void AddActor(Actor* c);
 	std::vector<std::vector<std::pair<int, int>>> paths;
 	std::vector<std::vector<bool>> visited;
+	std::vector<std::vector<bool>> acted;
 };
