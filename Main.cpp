@@ -2,7 +2,7 @@
 #include<vector>
 #include<string>
 #include"Controller.h"
-#include"vec2.h"
+//#include"vec2.h"
 
 using namespace std;
 
