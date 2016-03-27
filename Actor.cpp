@@ -3,10 +3,10 @@
 
 void Actor::replace(std::pair<int, int>& new_pos, Map& map)
 {
-	map.GetMap()[pos.second][pos.first] = new Emptiness(pos.first, pos.second);
+	map.Insert(new Emptiness(pos.first, pos.second), pos);
 	map.SetActed(pos);
 	pos = new_pos;
 	map.SetActed(pos);
-	delete(map.GetMap()[new_pos.second][new_pos.first]);
-	map.GetMap()[pos.second][pos.first] = this;
+	map.Erase(new_pos);
+	map.Insert(this, pos);
 }

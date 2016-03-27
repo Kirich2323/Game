@@ -37,14 +37,11 @@ void Controller::NextMove()
 	map.ClearActed();
 	map.GetPlayer()->Act(map);
 	map.SetActed(map.GetPlayer()->position());
+	map.UpdateDistances();
 	for (int i = 0; i < map.GetMap().size(); i++)
-	{
 		for (int j = 0; j < map.GetMap()[i].size(); j++)
-		{
 			if (!map.GetActed()[i][j])
 				map.GetMap()[i][j]->Act(map);
-		}
-	}
 }
 
 void Controller::ShowMap()

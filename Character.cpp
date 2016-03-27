@@ -18,7 +18,7 @@ void Character::Collide(Map & map, Fireball * target)
 	delete target;
 }
 
-bool Character::PathExist(Map &map, std::pair<int, int> target)
+bool Character::PathExist(Map & map, std::pair<int, int>& target)
 {
 	return (target.second >= 0 &&
 			target.first >= 0 &&
@@ -56,9 +56,9 @@ void Knight::Collide(Map & map, Princess * target)
 void Monster::Move(Map &map)
 {
 	//BFS
-	std::pair<int, int> next_position = SearchForPath(map);
+	/*std::pair<int, int> next_position = SearchForPath(map);
 	if (next_position != std::pair<int, int>(-1, -1))
-		Collide(map, map.GetMap()[next_position.second][next_position.first]);
+		Collide(map, map.GetMap()[next_position.second][next_position.first]);*/
 
 	//Just random moving
 	/*int offset = rand() % ways.size();
@@ -69,6 +69,22 @@ void Monster::Move(Map &map)
 			//return pos + ways[(i + offset) % ways.size()];
 		}
 	}*/
+
+	int offset = rand() % ways.size();
+	for (int i = 0; i < ways.size(); i++)
+	{
+		std::pair<int, int> new_pos = pos + ways[(i + offset) % ways.size()];
+		if (Character::PathExist(map, new_pos) && map.GetDistances()[pos.second][pos.first] > map.GetDistances()[new_pos.second][new_pos.first])
+			if (monsters.find(map.GetMap()[new_pos.second][new_pos.first]->Symbol()) == monsters.end())
+				return Collide(map, map.GetMap()[new_pos.second][new_pos.first]);
+			else
+				for (int j = 0; j < ways.size(); j++)
+				{
+					new_pos = pos + ways[i];
+					if (PathExist(map, new_pos))
+						return Collide(map, map.GetMap()[new_pos.second][new_pos.first]);
+				}
+	}
 }
 
 void Monster::Collide(Map& map, Knight * target)
@@ -146,7 +162,7 @@ std::pair<int, int>& Monster::SearchForPath(Map &map)
 	return next_point;
 }
 
-bool Monster::PathExist(Map &map, std::pair<int, int> target)
+bool Monster::PathExist(Map &map, std::pair<int, int>& target)
 {
 	if (Character::PathExist(map, target))
 		if (monsters.find(map.GetMap()[target.second][target.first]->Symbol()) == monsters.end())

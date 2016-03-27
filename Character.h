@@ -26,7 +26,7 @@ protected:
 	int hitpoints;
 	int max_hp;
 	virtual void Move(Map& map) = 0;
-	virtual bool PathExist(Map& map, std::pair<int, int> target);
+	virtual bool PathExist(Map& map, std::pair<int, int>& target);
 };
 
 class Knight : public Character {
@@ -63,7 +63,7 @@ public:
 	virtual void Collide(Map& map, Knight* target);
 	virtual void Collide(Map& map, Princess* target);
 protected:
-	bool PathExist(Map &map, std::pair<int, int> target);
+	bool PathExist(Map &map, std::pair<int, int>& target);
 private:
 	std::pair<int, int>& SearchForPath(Map &map);
 	virtual void Move(Map& map);
