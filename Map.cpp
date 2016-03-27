@@ -169,7 +169,7 @@ void Map::UpdateDistances()
 		for (int i = 0; i < ways.size(); i++)
 		{
 			std::pair<int, int> new_pos = pos_ + ways[i];
-			if (PathExist(new_pos) && visited[new_pos.second][new_pos.first] == false)
+			if (PathExist(new_pos) && actors[new_pos.second][new_pos.first]->Symbol() != WALL_SYMBOL && visited[new_pos.second][new_pos.first] == false)
 			{
 				queue.push(make_pair(new_pos, dist + 1));
 				visited[new_pos.second][new_pos.first] = true;

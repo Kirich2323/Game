@@ -71,7 +71,8 @@ void Monster::Move(Map &map)
 	{
 		std::pair<int, int> new_pos = pos + ways[(i + offset) % ways.size()];
 		if (Character::PathExist(map, new_pos) && map.GetDistances()[pos.second][pos.first] > map.GetDistances()[new_pos.second][new_pos.first])
-			if (monsters.find(map.GetMap()[new_pos.second][new_pos.first]->Symbol()) == monsters.end())
+		{
+			if (monsters.find(map.GetMap()[new_pos.second][new_pos.first]->Symbol()) == monsters.end() )
 				return Collide(map, map.GetMap()[new_pos.second][new_pos.first]);
 			else
 				for (int j = 0; j < ways.size(); j++)
@@ -80,6 +81,7 @@ void Monster::Move(Map &map)
 					if (PathExist(map, new_pos))
 						return Collide(map, map.GetMap()[new_pos.second][new_pos.first]);
 				}
+		}
 	}
 }
 

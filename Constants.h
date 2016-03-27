@@ -13,7 +13,7 @@
 #define CEMETRY_SYMBOL '$'
 #define DRAGONNEST_SYMBOL '@'
 
-#define KNIGHT_HP 150
+#define KNIGHT_HP 15000
 #define ZOMBIE_HP 10
 #define DRAGON_HP 50
 #define PRINCESS_HP 25
@@ -25,6 +25,7 @@
 #define WIZARD_DMG 2
 #define FIREBALL_DMG 15
 
+#define CEMETERY_COOLDOWN 14
 #define DRAGONNEST_COOLDOWN 24
 
 static std::map<std::pair<int, int>, char> fb_dir = {
