@@ -17,6 +17,7 @@ public:
 	std::vector<std::vector<Actor*>> GetBufMap();
 	std::vector<std::vector<vec2i>>& GetPaths();
 	std::vector<std::vector<bool>>& GetVisited();
+	std::vector<RemoteSpawner*>& GetRemoteSpawners() { return remote_spawners; }
 	void SetActed(vec2i& pos);
 	void ClearActed();
 	void UpdateDistances();
@@ -39,4 +40,5 @@ private:
 	std::vector<std::vector<bool>> visited;
 	std::vector<std::vector<bool>> acted;
 	std::vector<std::vector<int>> distances;
+	std::vector<RemoteSpawner*> remote_spawners;
 };

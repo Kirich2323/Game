@@ -1,5 +1,6 @@
 #include"Controller.h"
 #include<exception>
+#include"RemoteSpawner.h"
 
 Controller::Controller(Map& map_){
 	map = map_;
@@ -34,6 +35,11 @@ void Controller::Lose(void)
 
 void Controller::NextMove()
 {
+	for (int i = 0; i < map.GetRemoteSpawners().size(); i++)
+	{
+		map.GetRemoteSpawners()[i]->Act(map);
+	}
+
 	map.ClearActed();
 	map.GetPlayer()->Act(map);
 	map.SetActed(map.GetPlayer()->position());
