@@ -27,6 +27,10 @@
 
 #define CEMETERY_COOLDOWN 14
 #define DRAGONNEST_COOLDOWN 24
+#define MEDKIT_SPAWN_COOLDOWN 5
+
+#define MEDKIT_MAX_COUNT 5
+#define MEDKIT_HEAL_POWER 10
 
 static std::map<vec2i, char> fb_dir = {
 	{vec2i( 0,-1), '^' },
