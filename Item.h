@@ -9,6 +9,7 @@ public:
 	virtual ~Item() {};
 	virtual void Act(Map& map) {}
 	virtual void Collide(Map& map, Actor* target) { target->Collide(map, this); }
+	virtual void Collide(Map& map, Fireball* target);
 	virtual void Collide(Map& map, Character* target) = 0;
 private:
 };
