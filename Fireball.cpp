@@ -4,27 +4,27 @@
 
 void Fireball::Collide(Map & map, Fireball * target)
 {
-	map.Insert(new Emptiness(target->position().first, target->position().second), target->position());
+	map.Insert(new Emptiness(target->position().x, target->position().y), target->position());
 	delete target;
-	map.Insert(new Emptiness(pos.first, pos.second), pos);
+	map.Insert(new Emptiness(pos.x, pos.y), pos);
 	delete this;
 }
 
 void Fireball::Collide(Map & map, Character* target)
 {
 	target->TakeDamage(damage);
-	map.GetMap()[pos.second][pos.first] = new Emptiness(pos.first, pos.second);
+	map.GetMap()[pos.y][pos.x] = new Emptiness(pos.x, pos.y);
 	delete this;
 }
 
 void Fireball::Act(Map & map)
 {
-	std::pair<int, int> new_pos = pos + direction;
+	vec2i new_pos = pos + direction;
 	if (map.PathExist(new_pos))
-		Collide(map, map.GetMap()[new_pos.second][new_pos.first]);
+		Collide(map, map.GetMap()[new_pos.y][new_pos.x]);
 	else
 	{
-		map.GetMap()[pos.second][pos.first] = new Emptiness(pos.first, pos.second);
+		map.GetMap()[pos.y][pos.x] = new Emptiness(pos.x, pos.y);
 		delete this;
 	}
 }

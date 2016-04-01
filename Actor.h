@@ -3,6 +3,7 @@
 #include"Map.h"
 #include<vector>
 #include"Constants.h"
+#include"vec2i.h"
 
 class Character;
 class Knight;
@@ -23,10 +24,10 @@ class Spawner;
 class Actor
 {
 public:
-	Actor(int& x_, int& y_) : pos(std::pair<int, int>(x_, y_)) {}
+	Actor(int& x_, int& y_) : pos(x_, y_) {}
 	virtual char Symbol() = 0;
-	std::pair<int, int> position() { return pos; }
-	virtual void replace(std::pair<int, int>& new_pos, Map& map);
+	vec2i position() { return pos; }
+	virtual void replace(vec2i& new_pos, Map& map);
 	virtual ~Actor() {}
 	virtual void Act(Map& map) = 0;
 	virtual void Collide(Map& map, Actor* target) {};
@@ -36,5 +37,5 @@ public:
 	virtual void Collide(Map& map, Fireball* target) {}
 	virtual void Collide(Map& map, Spawner* target) {}
 protected:
-	std::pair<int, int> pos;
+	vec2i pos;
 };

@@ -12,7 +12,7 @@ public:
 	void Collide(Map& map, Fireball* target);
 protected:
 	virtual void Spawn(Map& map) = 0;	
-	bool PathExist(Map& map, std::pair<int, int> pos);
+	bool PathExist(Map& map, vec2i pos);
 	int max_cooldown;
 	int cooldown;
 };

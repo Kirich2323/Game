@@ -14,17 +14,17 @@ void Spawner::Act(Map & map)
 
 void Spawner::Collide(Map & map, Fireball * target)
 {
-	map.GetMap()[target->position().second][target->position().first] = new Emptiness(target->position().first, target->position().second);
+	map.GetMap()[target->position().y][target->position().x] = new Emptiness(target->position().x, target->position().y);
 	delete target;
 }
 
-bool Spawner::PathExist(Map & map, std::pair<int, int> pos)
+bool Spawner::PathExist(Map & map, vec2i pos)
 {
-	return pos.second >= 0 &&
-		   pos.first >= 0 &&
-		   pos.second < map.GetMap().size() &&
-		   pos.first < map.GetMap()[pos.second].size() &&
-		   (map.GetMap()[pos.second][pos.first]->Symbol() == EMPTINESS_SYMBOL);
+	return pos.y >= 0 &&
+		   pos.x >= 0 &&
+		   pos.y < map.GetMap().size() &&
+		   pos.x < map.GetMap()[pos.y].size() &&
+		   (map.GetMap()[pos.y][pos.x]->Symbol() == EMPTINESS_SYMBOL);
 }
 
 
@@ -33,12 +33,12 @@ void Cemetery::Spawn(Map & map)
 	int offset = rand() % ways.size();
 	for (int i = 0; i < ways.size(); i++)
 	{
-		std::pair<int, int> new_pos = pos + ways[(i + offset) % 4];
-		if (PathExist(map, new_pos) && map.GetMap()[new_pos.second][new_pos.first] != map.GetPlayer())
+		vec2i new_pos = pos + ways[(i + offset) % 4];
+		if (PathExist(map, new_pos) && map.GetMap()[new_pos.y][new_pos.x] != map.GetPlayer())
 		{
 			map.SetActed(pos);
-			delete map.GetMap()[new_pos.second][new_pos.first];
-			map.GetMap()[new_pos.second][new_pos.first] = new Zombie(ZOMBIE_HP, new_pos.first, new_pos.second);
+			delete map.GetMap()[new_pos.y][new_pos.x];
+			map.GetMap()[new_pos.y][new_pos.x] = new Zombie(ZOMBIE_HP, new_pos.x, new_pos.y);
 			map.SetActed(new_pos);
 			break;
 		}
@@ -50,12 +50,12 @@ void DragonNest::Spawn(Map & map)
 	int offset = rand() % ways.size();
 	for (int i = 0; i < ways.size(); i++)
 	{
-		std::pair<int, int> new_pos = pos + ways[(i + offset) % 4];
-		if (PathExist(map, new_pos) && map.GetMap()[new_pos.second][new_pos.first] != map.GetPlayer())
+		vec2i new_pos = pos + ways[(i + offset) % 4];
+		if (PathExist(map, new_pos) && map.GetMap()[new_pos.y][new_pos.x] != map.GetPlayer())
 		{
 			map.SetActed(pos);
-			delete map.GetMap()[new_pos.second][new_pos.first];
-			map.GetMap()[new_pos.second][new_pos.first] = new Dragon(DRAGON_HP, new_pos.first, new_pos.second);
+			delete map.GetMap()[new_pos.y][new_pos.x];
+			map.GetMap()[new_pos.y][new_pos.x] = new Dragon(DRAGON_HP, new_pos.x, new_pos.y);
 			map.SetActed(new_pos);
 			break;
 		}

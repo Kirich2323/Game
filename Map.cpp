@@ -89,7 +89,7 @@ void Map::AddPrincess(Actor* c)
 
 void Map::AddActor(Actor* c)
 {
-	actors[c->position().second][c->position().first] = c;
+	actors[c->position().y][c->position().x] = c;
 }
 
 Map::Map(const Map &map_)
@@ -101,10 +101,10 @@ Map::Map(const Map &map_)
 
 void Map::Display()
 {
-	if (actors[princess->position().second][princess->position().first]->Symbol() == EMPTINESS_SYMBOL)
+	if (actors[princess->position().y][princess->position().x]->Symbol() == EMPTINESS_SYMBOL)
 	{
-		delete actors[princess->position().second][princess->position().first];
-		actors[princess->position().second][princess->position().first] = princess;
+		delete actors[princess->position().y][princess->position().x];
+		actors[princess->position().y][princess->position().x] = princess;
 	}
 
 	for (int i = 0; i < actors.size(); i++)
@@ -126,7 +126,7 @@ std::vector<std::vector<Actor*>> Map::GetBufMap()
 	return actors;
 }
 
-std::vector<std::vector<std::pair<int, int>>>& Map::GetPaths()
+std::vector<std::vector<vec2i>>& Map::GetPaths()
 {
 	return paths;
 }
@@ -136,9 +136,9 @@ std::vector<std::vector<bool>>& Map::GetVisited()
 	return visited;
 }
 
-void Map::SetActed(std::pair<int, int>& pos)
+void Map::SetActed(vec2i& pos)
 {
-	acted[pos.second][pos.first] = true;
+	acted[pos.y][pos.x] = true;
 }
 
 void Map::ClearActed()
@@ -154,25 +154,25 @@ void Map::UpdateDistances()
 {
 	ClearVisited();
 
-	std::queue< std::pair< std::pair< int, int>, int> > queue;
-	queue.push(make_pair(player->position(), 0));
+	std::queue< std::pair< vec2i, int> > queue;
+	queue.push(std::pair< vec2i, int>(player->position(), 0));
 
-	visited[player->position().second][player->position().first] = true;
+	visited[player->position().y][player->position().x] = true;
 
 	while (!queue.empty())
 	{
-		std::pair<int, int> pos_ = queue.front().first;
+		vec2i pos_ = queue.front().first;
 		int dist = queue.front().second;
-		distances[pos_.second][pos_.first] = dist;
+		distances[pos_.y][pos_.x] = dist;
 		queue.pop();
 
 		for (int i = 0; i < ways.size(); i++)
 		{
-			std::pair<int, int> new_pos = pos_ + ways[i];
-			if (PathExist(new_pos) && actors[new_pos.second][new_pos.first]->Symbol() != WALL_SYMBOL && visited[new_pos.second][new_pos.first] == false)
+			vec2i new_pos = pos_ + ways[i];
+			if (PathExist(new_pos) && actors[new_pos.y][new_pos.x]->Symbol() != WALL_SYMBOL && visited[new_pos.y][new_pos.x] == false)
 			{
-				queue.push(make_pair(new_pos, dist + 1));
-				visited[new_pos.second][new_pos.first] = true;
+				queue.push(std::pair< vec2i, int>(new_pos, dist + 1));
+				visited[new_pos.y][new_pos.x] = true;
 			}
 		}
 	}
@@ -190,17 +190,17 @@ void Map::ClearVisited()
 			visited[i][j] = false;
 }
 
-bool Map::PathExist(std::pair<int, int> pos)
+bool Map::PathExist(vec2i pos)
 {
-	return pos.second >= 0 && pos.first >= 0 && pos.second < actors.size() && pos.first < actors[pos.second].size();
+	return pos.y >= 0 && pos.x >= 0 && pos.y < actors.size() && pos.x < actors[pos.y].size();
 }
 
-void Map::Erase(std::pair<int, int> pos)
+void Map::Erase(vec2i pos)
 {
-	delete actors[pos.second][pos.first];
+	delete actors[pos.y][pos.x];
 }
 
-void Map::Insert(Actor* actor, std::pair<int, int> pos)
+void Map::Insert(Actor* actor, vec2i pos)
 {
-	actors[pos.second][pos.first] = actor;
+	actors[pos.y][pos.x] = actor;
 }
