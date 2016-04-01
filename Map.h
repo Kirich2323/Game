@@ -5,6 +5,7 @@
 #include"vec2i.h"
 
 class Actor;
+class RemoteSpawner;
 
 class Map {
 public:
@@ -26,7 +27,7 @@ public:
 	void ClearVisited();
 	bool PathExist(vec2i pos);
 	void Erase(vec2i pos);
-	void Insert(Actor* actor, vec2i pos);
+	void Insert(Actor* actor);
 private:
 	Actor* player;
 	Actor* princess;

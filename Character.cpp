@@ -3,6 +3,7 @@
 #include<conio.h>
 #include<queue>
 #include"Fireball.h"
+#include"RemoteSpawner.h"
 
 void Character::Heal(int amount)
 {
@@ -13,7 +14,7 @@ void Character::Heal(int amount)
 
 void Character::Collide(Map & map, Fireball * target)
 {
-	map.Insert(new Emptiness(target->position().x, target->position().y), target->position());
+	map.Insert(new Emptiness(target->position().x, target->position().y));
 	hitpoints -= target->GetDamage();
 	delete target;
 }
@@ -92,11 +93,11 @@ void Monster::Collide(Map& map, Knight * target)
 
 void Monster::Collide(Map & map, Princess * target)
 {
-	map.Insert(new Emptiness(pos.x, pos.y), pos);
+	map.Insert(new Emptiness(pos.x, pos.y));
 	map.SetActed(pos);
 	pos = target->position();
 	map.SetActed(pos);
-	map.Insert(this, pos);
+	map.Insert(this);
 }
 
 vec2i& Monster::SearchForPath(Map &map)

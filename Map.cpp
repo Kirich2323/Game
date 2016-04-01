@@ -5,6 +5,7 @@
 #include"Object.h"
 #include"Spawner.h"
 #include<queue>
+#include"RemoteSpawner.h"
 
 Map::Map()
 {
@@ -73,6 +74,7 @@ Map::Map(std::vector<std::vector<char>>& map_)
 		acted[i].resize(map_[i].size());
 		distances[i].resize((map_[i].size()));
 	}
+
 }
 
 void Map::AddPlayer(Actor* c)
@@ -200,7 +202,7 @@ void Map::Erase(vec2i pos)
 	delete actors[pos.y][pos.x];
 }
 
-void Map::Insert(Actor* actor, vec2i pos)
+void Map::Insert(Actor* actor)
 {
-	actors[pos.y][pos.x] = actor;
+	actors[actor->position().y][actor->position().x] = actor;
 }
