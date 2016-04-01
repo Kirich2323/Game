@@ -16,7 +16,9 @@ int& vec2i::operator[](const int& i)
 
 bool operator<(const vec2i& left, const vec2i& right)
 {
-	return left.x < right.x && left.y < right.y;
+	if (left.x < right.x)
+		return true;
+	else return left.x == right.x && left.y < right.y;
 }
 
 bool operator==(const vec2i& left, const vec2i& right)
