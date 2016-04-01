@@ -21,6 +21,6 @@ public:
 	~Medkit() {};
 	virtual void Collide(Map& map, Actor* target) { target->Collide(map, this); }
 	virtual void Collide(Map& map, Character* target);
-	int HealPower() { return 10; }
+	int HealPower() { return MEDKIT_HEAL_POWER; }
 private:
 };
