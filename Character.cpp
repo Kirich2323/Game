@@ -185,7 +185,7 @@ void Wizard::LaunchFireball(Map & map)
 		std::pair<int, int> dir = ways[(i + offset) % 4];
 		std::pair<int, int> new_pos = dir + pos;
 		
-		if (PathExist(map, new_pos) && map.GetMap()[new_pos.second][new_pos.first] != map.GetPlayer())
+		if (PathExist(map, new_pos) && map.GetMap()[new_pos.second][new_pos.first]->Symbol() == EMPTINESS_SYMBOL)
 		{
 			map.SetActed(new_pos);
 			delete map.GetMap()[new_pos.second][new_pos.first];
