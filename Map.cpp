@@ -5,11 +5,13 @@
 #include"Object.h"
 #include"Spawner.h"
 #include<queue>
+#include"RemoteSpawner.h"
 
 Map::Map()
 {
 	actors.resize(1);
 	actors[0].resize(1);
+	remote_spawners.push_back(new MedkitSpawner());
 }
 
 Map::Map(std::vector<std::vector<char>>& map_)
@@ -73,6 +75,8 @@ Map::Map(std::vector<std::vector<char>>& map_)
 		acted[i].resize(map_[i].size());
 		distances[i].resize((map_[i].size()));
 	}
+
+	remote_spawners.push_back(new MedkitSpawner());
 }
 
 void Map::AddPlayer(Actor* c)

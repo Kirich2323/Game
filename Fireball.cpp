@@ -4,9 +4,9 @@
 
 void Fireball::Collide(Map & map, Fireball * target)
 {
-	map.Insert(new Emptiness(target->position().x, target->position().y), target->position());
+	map.Insert(new Emptiness(target->position().x, target->position().y));
 	delete target;
-	map.Insert(new Emptiness(pos.x, pos.y), pos);
+	map.Insert(new Emptiness(pos.x, pos.y));
 	delete this;
 }
 
