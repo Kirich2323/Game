@@ -5,7 +5,7 @@
 #include<set>
 #include"Actor.h"
 #include"Item.h"
-#include"Constants.h"
+#include"Cfg.h"
 
 class Character : public Actor {
 public:
@@ -32,8 +32,8 @@ protected:
 class Knight : public Character {
 public:
 	Knight(int h, int x, int y): Character(h, x, y) {}
-	char Symbol() { return KNIGHT_SYMBOL; }
-	int Damage() { return 10; }
+	char Symbol() { return Cfg::GetInstance().get_knight_symbol(); }
+	int Damage() { return Cfg::GetInstance().get_knight_dmg(); }
 	virtual void Collide(Map& map, Actor* target) { target->Collide(map, this); }
 	virtual void Collide(Map& map, Character* target) { target->Collide(map, this); }
 	virtual void Collide(Map& map, Monster* target);
@@ -45,7 +45,7 @@ private:
 class Princess : public Character {
 public:
 	Princess(int h, int x, int y) : Character(h, x, y) {}
-	char Symbol() { return PRINCESS_SYMBOL; }
+	char Symbol() { return Cfg::GetInstance().get_princess_symbol(); }
 	int Damage() { return 0; }
 	virtual void Collide(Map& map, Actor* target) { target->Collide(map, this); }
 	virtual void Collide(Map& map, Character* target) { target->Collide(map, this); }
@@ -72,15 +72,15 @@ private:
 class Zombie : public Monster {
 public:
 	Zombie(int h, int x, int y): Monster(h, x, y) {}
-	char Symbol() { return ZOMBIE_SYMBOL; }
-	int Damage() { return 5; }
+	char Symbol() { return Cfg::GetInstance().get_zombie_symbol(); }
+	int Damage() { return Cfg::GetInstance().get_zombie_dmg(); }
 };
 
 class Dragon : public Monster {
 public:
 	Dragon(int h, int x, int y): Monster(h, x, y){}
-	char Symbol() { return DRAGON_SYMBOL; }
-	int Damage() { return 7; }
+	char Symbol() { return Cfg::GetInstance().get_dragon_symbol(); }
+	int Damage() { return Cfg::GetInstance().get_dragon_dmg(); }
 };
 
 class Wizard : public Monster
@@ -89,10 +89,10 @@ public:
 	Wizard(int h_, int x_, int y_) : Monster(h_, x_, y_) {}
 	~Wizard() {}
 	virtual void Act(Map& map);
-	char Symbol() { return WIZARD_SYMBOL; }
-	int Damage() { return 2; }
+	char Symbol() { return Cfg::GetInstance().get_wizard_symbol(); }
+	int Damage() { return Cfg::GetInstance().get_wizard_dmg(); }
 private:
-	int fireball_damage = FIREBALL_DMG;
+	int fireball_damage = Cfg::GetInstance().get_fireball_dmg();
 	void LaunchFireball(Map& map);
 	void Move(Map& map);
 };

@@ -3,6 +3,7 @@
 #include<string>
 #include<iostream>
 #include"vec2i.h"
+#include<map>
 
 class Actor;
 class RemoteSpawner;
@@ -41,4 +42,15 @@ private:
 	std::vector<std::vector<bool>> acted;
 	std::vector<std::vector<int>> distances;
 	std::vector<RemoteSpawner*> remote_spawners;
+	void CreateKnight(vec2i pos);
+	void CreatePrincess(vec2i pos);
+	void CreateZombie(vec2i pos);
+	void CreateDragon(vec2i pos);
+	void CreateCemetery(vec2i pos);
+	void CreateDragonNest(vec2i pos);
+	void CreateWizard(vec2i pos);
+	void CreateEmptiness(vec2i pos);
+	void CreateWall(vec2i pos);
+	void CreateMedkit(vec2i pos);
+	std::map<char, void (Map::*)(vec2i c)> funcs;
 };

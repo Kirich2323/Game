@@ -2,7 +2,7 @@
 #include<iostream>
 #include"Map.h"
 #include<vector>
-#include"Constants.h"
+#include"Cfg.h"
 #include"vec2i.h"
 
 class Character;

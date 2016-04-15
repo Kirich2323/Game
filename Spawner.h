@@ -1,6 +1,6 @@
 #pragma once
 #include"Actor.h"
-#include"Constants.h"
+#include"Cfg.h"
 
 class Spawner : public Actor
 {
@@ -22,7 +22,7 @@ class Cemetery : public Spawner
 public:
 	Cemetery(int x_, int y_, int cd) : Spawner(x_, y_, cd) {}
 	~Cemetery() {}
-	char Symbol() { return CEMETRY_SYMBOL; }
+	char Symbol() { return Cfg::GetInstance().get_cemetery_symbol(); }
 protected:
 	void Spawn(Map& map);
 };
@@ -32,7 +32,7 @@ class DragonNest : public Spawner
 public:
 	DragonNest(int x_, int y_, int cd) : Spawner(x_, y_, cd) {}
 	~DragonNest() {}
-	char Symbol() { return DRAGONNEST_SYMBOL; }
+	char Symbol() { return Cfg::GetInstance().get_dragon_nest_symbol(); }
 protected:
 	void Spawn(Map& map);
 };

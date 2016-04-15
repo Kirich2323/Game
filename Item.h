@@ -18,10 +18,10 @@ class Medkit : public Item
 {
 public:
 	Medkit(int& x_, int& y_) : Item(x_, y_) {}
-	virtual char Symbol() { return MEDKIT_SYMBOL; }
+	virtual char Symbol() { return Cfg::GetInstance().get_medkit_symbol(); }
 	~Medkit() {};
 	virtual void Collide(Map& map, Actor* target) { target->Collide(map, this); }
 	virtual void Collide(Map& map, Character* target);
-	int HealPower() { return MEDKIT_HEAL_POWER; }
+	int HealPower() { return Cfg::GetInstance().get_medkit_heal_power(); }
 private:
 };

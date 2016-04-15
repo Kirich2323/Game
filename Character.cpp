@@ -21,7 +21,7 @@ void Character::Collide(Map & map, Fireball * target)
 
 bool Character::PathExist(Map & map, vec2i& target)
 {
-	return (map.PathExist(target) && map.GetMap()[target.y][target.x]->Symbol() != WALL_SYMBOL);
+	return (map.PathExist(target) && map.GetMap()[target.y][target.x]->Symbol() != Cfg::GetInstance().get_wall_symbol());
 }
 
 void Knight::Move(Map& map)
@@ -186,7 +186,7 @@ void Wizard::LaunchFireball(Map & map)
 		vec2i dir = ways[(i + offset) % 4];
 		vec2i new_pos = dir + pos;
 		
-		if (PathExist(map, new_pos) && map.GetMap()[new_pos.y][new_pos.x]->Symbol() == EMPTINESS_SYMBOL)
+		if (PathExist(map, new_pos) && map.GetMap()[new_pos.y][new_pos.x]->Symbol() == Cfg::GetInstance().get_emptiness_symbol())
 		{
 			map.SetActed(new_pos);
 			delete map.GetMap()[new_pos.y][new_pos.x];

@@ -21,6 +21,6 @@ public:
 	virtual void Act(Map& map);
 protected:
 	void Spawn(Map& map);
-	int max_cooldown = MEDKIT_SPAWN_COOLDOWN;
+	int max_cooldown = Cfg::GetInstance().get_medkit_cooldown();
 	int cooldown = max_cooldown;
 };

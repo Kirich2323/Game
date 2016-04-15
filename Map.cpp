@@ -6,6 +6,8 @@
 #include"Spawner.h"
 #include<queue>
 #include"RemoteSpawner.h"
+//#include"Cfg.h"
+
 
 Map::Map()
 {
@@ -16,45 +18,26 @@ Map::Map()
 
 Map::Map(std::vector<std::vector<char>>& map_)
 {
+	funcs[Cfg::GetInstance().get_knight_symbol()] = &Map::CreateKnight;
+	funcs[Cfg::GetInstance().get_princess_symbol()] = &Map::CreatePrincess;
+	funcs[Cfg::GetInstance().get_zombie_symbol()] = &Map::CreateZombie;
+	funcs[Cfg::GetInstance().get_dragon_symbol()] = &Map::CreateDragon;
+	funcs[Cfg::GetInstance().get_cemetery_symbol()] = &Map::CreateCemetery;
+	funcs[Cfg::GetInstance().get_dragon_nest_symbol()] = &Map::CreateDragonNest;
+	funcs[Cfg::GetInstance().get_wizard_symbol()] = &Map::CreateWizard;
+	funcs[Cfg::GetInstance().get_wall_symbol()] = &Map::CreateWall;
+	funcs[Cfg::GetInstance().get_emptiness_symbol()] = &Map::CreateEmptiness;
+	funcs[Cfg::GetInstance().get_medkit_symbol()] = &Map::CreateMedkit;
+
 	actors.resize(map_.size());
 	for (int i = 0; i < map_.size(); i++)
 	{
 		actors[i].resize(map_[i].size(), nullptr);
 		for (int j = 0; j < map_[i].size(); j++)
 		{
-			switch (map_[i][j]) {
-			case KNIGHT_SYMBOL: {
-				if (player == nullptr)
-					AddPlayer(new Knight(KNIGHT_HP, j, i));
-				else
-					throw(std::runtime_error("Too many knights"));
-				break;
-			}
-			case PRINCESS_SYMBOL:
-			{
-				if (princess == nullptr)
-					AddPrincess(new Princess(PRINCESS_HP, j, i));
-				else
-					throw(std::runtime_error("Too many princesses"));
-				break;
-			}
-			case ZOMBIE_SYMBOL: AddActor(new Zombie(ZOMBIE_HP, j, i));
-				break;
-			case DRAGON_SYMBOL: AddActor(new Dragon(DRAGON_HP, j, i));
-				break;
-			case MEDKIT_SYMBOL: AddActor(new Medkit(j, i));
-				break;
-			case WALL_SYMBOL: AddActor(new Wall(j, i));
-				break;
-			case EMPTINESS_SYMBOL: AddActor(new Emptiness(j, i));
-				break;
-			case WIZARD_SYMBOL: AddActor(new Wizard(WIZARD_HP, j, i));
-				break;
-			case CEMETRY_SYMBOL: AddActor(new Cemetery(j, i, CEMETERY_COOLDOWN));
-				break;
-			case DRAGONNEST_SYMBOL: AddActor(new DragonNest(j, i, DRAGONNEST_COOLDOWN));
-				break;
-			}
+			auto it = funcs.find(map_[i][j]);
+			if (it != funcs.end())
+				(this->*(it->second))(vec2i(j, i));
 		}
 	}
 
@@ -96,6 +79,62 @@ void Map::AddActor(Actor* c)
 	actors[c->position().y][c->position().x] = c;
 }
 
+void Map::CreateKnight(vec2i pos)
+{
+	if (player == nullptr)
+		AddPlayer(new Knight(Cfg::GetInstance().get_knight_hp(), pos.x, pos.y));
+	else
+		throw(std::runtime_error("Too many knights"));
+}
+
+void Map::CreatePrincess(vec2i pos)
+{
+	if (princess == nullptr)
+		AddPrincess(new Princess(Cfg::GetInstance().get_princess_hp(), pos.x, pos.y));
+	else
+		throw(std::runtime_error("Too many princesses"));
+}
+
+void Map::CreateZombie(vec2i pos)
+{
+	AddActor(new Zombie(Cfg::GetInstance().get_zombie_hp(), pos.x, pos.y));
+}
+
+void Map::CreateDragon(vec2i pos)
+{
+	AddActor(new Dragon(Cfg::GetInstance().get_dragon_hp(), pos.x, pos.y));
+}
+
+void Map::CreateCemetery(vec2i pos)
+{
+	AddActor(new Cemetery(pos.x, pos.y, Cfg::GetInstance().get_cemetery_symbol()));
+}
+
+void Map::CreateDragonNest(vec2i pos)
+{
+	AddActor(new DragonNest(pos.x, pos.y, Cfg::GetInstance().get_dragon_nest_cooldown()));
+}
+
+void Map::CreateWizard(vec2i pos)
+{
+	AddActor(new Wizard(Cfg::GetInstance().get_wizard_hp(), pos.x, pos.y));
+}
+
+void Map::CreateEmptiness(vec2i pos)
+{
+	AddActor(new Emptiness(pos.x, pos.y));
+}
+
+void Map::CreateWall(vec2i pos)
+{
+	AddActor(new Wall(pos.x, pos.y));
+}
+
+void Map::CreateMedkit(vec2i pos)
+{
+	AddActor(new Medkit(pos.x, pos.y));
+}
+
 Map::Map(const Map &map_)
 {
 	actors = map_.actors;
@@ -105,7 +144,7 @@ Map::Map(const Map &map_)
 
 void Map::Display()
 {
-	if (actors[princess->position().y][princess->position().x]->Symbol() == EMPTINESS_SYMBOL)
+	if (actors[princess->position().y][princess->position().x]->Symbol() == Cfg::GetInstance().get_emptiness_symbol())
 	{
 		delete actors[princess->position().y][princess->position().x];
 		actors[princess->position().y][princess->position().x] = princess;
@@ -173,7 +212,7 @@ void Map::UpdateDistances()
 		for (int i = 0; i < ways.size(); i++)
 		{
 			vec2i new_pos = pos_ + ways[i];
-			if (PathExist(new_pos) && actors[new_pos.y][new_pos.x]->Symbol() != WALL_SYMBOL && visited[new_pos.y][new_pos.x] == false)
+			if (PathExist(new_pos) && actors[new_pos.y][new_pos.x]->Symbol() != Cfg::GetInstance().get_wall_symbol() && visited[new_pos.y][new_pos.x] == false)
 			{
 				queue.push(std::pair< vec2i, int>(new_pos, dist + 1));
 				visited[new_pos.y][new_pos.x] = true;

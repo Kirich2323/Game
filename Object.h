@@ -22,7 +22,7 @@ public:
 	Wall(int x_, int y_) : Object(x_, y_) {}
 	~Wall() {}
 	virtual void Collide(Map& map, Fireball* target);
-	char Symbol() { return WALL_SYMBOL; }
+	char Symbol() { return Cfg::GetInstance().get_wall_symbol(); }
 private:
 };
 
@@ -33,5 +33,5 @@ public:
 	~Emptiness() {}
 	virtual void Collide(Map& map, Character* target) { target->replace(pos, map); }
 	virtual void Collide(Map& map, Fireball* target);
-	char Symbol() { return EMPTINESS_SYMBOL; }
+	char Symbol() { return Cfg::GetInstance().get_emptiness_symbol(); }
 };

@@ -15,7 +15,7 @@ vec2i RemoteSpawner::SeekCell(Map & map, vec2i pos)
 		vec2i current_loc = queue.front();
 		queue.pop();
 
-		if (map.GetMap()[current_loc.y][current_loc.x]->Symbol() == EMPTINESS_SYMBOL)
+		if (map.GetMap()[current_loc.y][current_loc.x]->Symbol() == Cfg::GetInstance().get_emptiness_symbol())
 			return current_loc;
 
 		int offset = rand() % ways.size();
@@ -47,14 +47,14 @@ void MedkitSpawner::Act(Map & map)
 		cooldown = max_cooldown;
 		for (int i = 0; i < children_position.size(); i++)
 		{
-			if (map.GetMap()[children_position[i].y][children_position[i].x]->Symbol() != MEDKIT_SYMBOL)
+			if (map.GetMap()[children_position[i].y][children_position[i].x]->Symbol() != Cfg::GetInstance().get_medkit_symbol())
 			{
 				Swap(i, children_position.size() - 1);
 				children_position.resize(children_position.size() - 1);
 			}
 		}
 
-		if (children_position.size() < MEDKIT_MAX_COUNT)
+		if (children_position.size() < Cfg::GetInstance().get_medkit_max_count())
 		{
 			Spawn(map);
 		}

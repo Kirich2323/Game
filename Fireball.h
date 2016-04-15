@@ -1,6 +1,6 @@
 #pragma once
 #include"Actor.h"
-#include"Constants.h"
+#include"Cfg.h"
 
 class Fireball : public Actor
 {

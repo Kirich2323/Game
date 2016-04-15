@@ -24,7 +24,7 @@ bool Spawner::PathExist(Map & map, vec2i pos)
 		   pos.x >= 0 &&
 		   pos.y < map.GetMap().size() &&
 		   pos.x < map.GetMap()[pos.y].size() &&
-		   (map.GetMap()[pos.y][pos.x]->Symbol() == EMPTINESS_SYMBOL);
+		   (map.GetMap()[pos.y][pos.x]->Symbol() == Cfg::GetInstance().get_emptiness_symbol());
 }
 
 
@@ -38,7 +38,7 @@ void Cemetery::Spawn(Map & map)
 		{
 			map.SetActed(pos);
 			delete map.GetMap()[new_pos.y][new_pos.x];
-			map.GetMap()[new_pos.y][new_pos.x] = new Zombie(ZOMBIE_HP, new_pos.x, new_pos.y);
+			map.GetMap()[new_pos.y][new_pos.x] = new Zombie(Cfg::GetInstance().get_zombie_hp(), new_pos.x, new_pos.y);
 			map.SetActed(new_pos);
 			break;
 		}
@@ -55,7 +55,7 @@ void DragonNest::Spawn(Map & map)
 		{
 			map.SetActed(pos);
 			delete map.GetMap()[new_pos.y][new_pos.x];
-			map.GetMap()[new_pos.y][new_pos.x] = new Dragon(DRAGON_HP, new_pos.x, new_pos.y);
+			map.GetMap()[new_pos.y][new_pos.x] = new Dragon(Cfg::GetInstance().get_dragon_hp(), new_pos.x, new_pos.y);
 			map.SetActed(new_pos);
 			break;
 		}
